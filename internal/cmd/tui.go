@@ -51,6 +51,8 @@ func tuiCmd() *cobra.Command {
 
 			if !defaultAllowUnnamed {
 				newBlocks := project.FilterCodeBlocks(blocks, fAllowUnknown, false)
+                //TODO: It seems like this is trying to force more results then
+                // what exists for the current settings/flags, why?
 				if len(newBlocks) == 0 {
 					defaultAllowUnnamed = true
 				}
@@ -94,6 +96,9 @@ func tuiCmd() *cobra.Command {
 			)
 
 			if serverAddr != "" {
+                //TODO: looks like this is where the client connects to a remote runner
+                // What does remote mean here... is it someone else's server? localhost? it depends?
+                // looks like this only happens when serverAddr is set so probably when you want it to be truly remote or for development?
 				remoteRunner, err := client.NewRemoteRunner(
 					cmd.Context(),
 					serverAddr,
@@ -129,6 +134,7 @@ func tuiCmd() *cobra.Command {
 				allowUnknown: fAllowUnknown,
 			}
 
+            //TODO: I stopped here
 			model.filterCodeBlocks()
 
 			sessionEnvs, err := runnerClient.GetEnvs(context.Background())

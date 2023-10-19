@@ -23,6 +23,10 @@ import (
 
 const envStackDepth = "__RUNME_STACK_DEPTH"
 
+//TODO: Does runme use naked returns everywhere?
+// It does not look like it so my suggestion would be not using them at all
+// Considering this is the one major regret I have heard from the golang core team
+// seems like a good one to say away from
 func getProject() (proj project.Project, err error) {
 	if fFileMode {
 		proj = project.NewSingleFileProject(filepath.Join(fChdir, fFileName), fAllowUnknown, fAllowUnnamed)
@@ -34,6 +38,8 @@ func getProject() (proj project.Project, err error) {
 				return nil, err
 			}
 
+            // If no specifically set projDir gets set with fProject then we will
+            // default to finding the nearest repo
 			findNearestRepo = true
 		}
 

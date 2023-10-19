@@ -58,6 +58,7 @@ func NewLocalRunner(opts ...RunnerOption) (*LocalRunner, error) {
 		}
 	}
 
+    //TODO: This is really important, where "real" things start happening
 	sess, err := runner.NewSession(os.Environ(), r.project, r.logger)
 	if err != nil {
 		return nil, err

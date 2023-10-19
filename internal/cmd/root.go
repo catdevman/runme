@@ -49,6 +49,8 @@ func Root() *cobra.Command {
 
 			fFileMode = cmd.Flags().Changed("chdir") || cmd.Flags().Changed("filename")
 
+            //TODO: Here is what I thought was an inconsistency but
+            // clearly this was done on purpose, it would be nice to document why.
 			if fFileMode && !cmd.Flags().Changed("allow-unnamed") {
 				fAllowUnnamed = true
 			}
@@ -89,22 +91,24 @@ func Root() *cobra.Command {
 	suggestCmd := suggestCmd()
 	suggestCmd.AddCommand(branchCmd)
 
-	cmd.AddCommand(branchCmd)
-	cmd.AddCommand(codeServerCmd())
-	cmd.AddCommand(environmentCmd())
-	cmd.AddCommand(fmtCmd())
-	cmd.AddCommand(listCmd())
-	cmd.AddCommand(loginCmd())
-	cmd.AddCommand(logoutCmd())
-	cmd.AddCommand(printCmd())
-	cmd.AddCommand(extensionCmd())
-	cmd.AddCommand(runCmd())
-	cmd.AddCommand(serverCmd())
-	cmd.AddCommand(shellCmd())
-	cmd.AddCommand(suggestCmd)
-	cmd.AddCommand(tasksCmd())
-	cmd.AddCommand(tokenCmd())
-	cmd.AddCommand(tuiCmd)
+	cmd.AddCommand(
+        branchCmd,
+        codeServerCmd(),
+        environmentCmd(),
+        fmtCmd(),
+        listCmd(),
+        loginCmd(),
+        logoutCmd(),
+        printCmd(),
+        extensionCmd(),
+        runCmd(),
+        serverCmd(),
+        shellCmd(),
+        suggestCmd,
+        tasksCmd(),
+        tokenCmd(),
+        tuiCmd,
+    )
 
 	cmd.SetUsageTemplate(getUsageTemplate(cmd))
 

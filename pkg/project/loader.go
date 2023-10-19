@@ -16,7 +16,9 @@ type ProjectLoader struct {
 	r          io.Reader
 	isTerminal bool
 }
-
+//TODO: Looks like this is usually getting called like projectLoader.NewLoader()
+// Why not just make it New()... are we putting more than 1 struct New function in
+// the same package? If so, why not separate them?
 func NewLoader(w io.Writer, r io.Reader, isTerminal bool) ProjectLoader {
 	return ProjectLoader{
 		w:          w,
@@ -72,6 +74,8 @@ func (pl ProjectLoader) LoadTasks(proj Project, allowUnknown bool, allowUnnamed 
 	if filter {
 		tasks = FilterCodeBlocks[CodeBlock](m.tasks, allowUnknown, allowUnnamed)
 
+        //TODO: If I filter something while allowUnnamed is false I am okay with
+        // getting 0 results, why would I want it to change allowUnnamed to true?
 		if len(tasks) == 0 {
 			// try again without filtering unnamed
 			tasks = FilterCodeBlocks[CodeBlock](m.tasks, allowUnknown, true)
@@ -85,6 +89,7 @@ func (pl ProjectLoader) runTasksModel(proj Project, filesOnly bool) (*loadTasksM
 	channel := make(chan interface{})
 	go proj.LoadTasks(filesOnly, channel)
 
+    // Handler function for tea messages
 	nextTaskMsg := func() tea.Msg {
 		msg, ok := <-channel
 
